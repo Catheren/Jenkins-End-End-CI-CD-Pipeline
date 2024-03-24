@@ -29,23 +29,28 @@ pipeline {
         }
       }
     }
-    stage('Build and Push Docker Image') {
-      environment {
-        DOCKER_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"
-        // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
+  stage('Build and Push Docker Image') {
+    environment {
+        DOCKER_SOURCE_IMAGE = "abhishekf5/ultimate-cicd:${BUILD_NUMBER}"  // Image downloaded from the source repository
+        DOCKER_TARGET_IMAGE = "sjoseph593/cicd:${BUILD_NUMBER}"            // Image to be pushed to your personal repository
         REGISTRY_CREDENTIALS = credentials('docker-cred')
-      }
-      steps {
+    }
+    steps {
         script {
-            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
-            def dockerImage = docker.image("${DOCKER_IMAGE}")
-            dockerImage.tag("sjoseph593/cicd:${BUILD_NUMBER}")
+            // Build the Docker image
+            sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_SOURCE_IMAGE} .'
+
+            // Tag the Docker image with your personal repository
+            sh "docker tag ${DOCKER_SOURCE_IMAGE} ${DOCKER_TARGET_IMAGE}"
+
+            // Push the tagged Docker image to your personal repository
             docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-            dockerImage.push()
+                sh "docker push ${DOCKER_TARGET_IMAGE}"
             }
         }
-      }
     }
+}
+
     stage('Update Deployment File') {
         environment {
             GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
