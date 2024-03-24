@@ -1,4 +1,4 @@
-# Jenkins-Zero-To-Hero
+# End to end CI-CD pipeline
 
 Are you looking forward to learn Jenkins right from Zero(installation) to Hero(Build end to end pipelines)? then you are at the right place. 
 
