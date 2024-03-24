@@ -39,8 +39,9 @@ pipeline {
         script {
             sh 'cd java-maven-sonar-argocd-helm-k8s/spring-boot-app && docker build -t ${DOCKER_IMAGE} .'
             def dockerImage = docker.image("${DOCKER_IMAGE}")
+            dockerImage.tag("sjoseph593/cicd:${BUILD_NUMBER}")
             docker.withRegistry('https://index.docker.io/v1/', "docker-cred") {
-                dockerImage.push('sjoseph593/cicd')
+            dockerImage.push()
             }
         }
       }
