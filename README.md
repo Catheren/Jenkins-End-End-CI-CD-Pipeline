@@ -1,6 +1,7 @@
 # End to end CI-CD pipeline
 The order of the project is as shown in the image. 
-![image](https://github.com/Catheren/Jenkins-End-End-CI-CD-Pipeline/assets/94724571/273efb83-6e7f-4481-a44d-4eee0faa75e4)
+![image](https://github.com/Catheren/Jenkins-End-End-CI-CD-Pipeline/assets/94724571/7b48eb5a-b0a1-4928-8db8-558137d2de72)
+
 ## Installation on EC2 Instance
 
 Install Jenkins, configure Docker as agent, set up cicd, deploy applications to k8s and much more.
